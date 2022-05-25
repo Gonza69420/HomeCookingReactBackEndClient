@@ -10,10 +10,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "chef")
-public class Chef extends AbstractEntity {
+public class Chef extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String mail;
@@ -28,7 +28,7 @@ public class Chef extends AbstractEntity {
     private Profile profile;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<ERole> roles;
 
 
 
@@ -49,7 +49,7 @@ public class Chef extends AbstractEntity {
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
@@ -74,13 +74,13 @@ public class Chef extends AbstractEntity {
 
     public String getDNI() {return DNI;}
 
-    public Role getRole() {return Role.ROLE_CHEF;}
+    public ERole getRole() {return ERole.ROLE_CHEF;}
 
     public String getCity() {return City;}
 
     public void setPassword(String password) {this.password = password;} //To be used only by the system when the user forgets the password
 
-    public void setId(UUID idchef) {
+    public void setId(Long idchef) {
         this.id =  idchef;
     }
 

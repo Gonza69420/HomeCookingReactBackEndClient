@@ -2,15 +2,14 @@ package com.homecooking.demo.data.entity;
 
 
 import javax.persistence.*;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Table(name = "client")
 @Entity(name = "Client")
-public class Client extends AbstractEntity {
+public class Client extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String mail;
@@ -19,9 +18,12 @@ public class Client extends AbstractEntity {
     private String phoneNumber;
     private String dni;
     private boolean isActive;
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "client_roles",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     private String password;
 
@@ -64,7 +66,7 @@ public class Client extends AbstractEntity {
         this.lastName = lastName;
     }
 
-    public Role getRole() {return Role.ROLE_CLIENT;}
+    public ERole getRole() {return ERole.ROLE_CLIENT;}
 
     public String getMail() {
         return mail;
@@ -106,15 +108,18 @@ public class Client extends AbstractEntity {
         this.password = password;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
     }
-}
+
+    public Set<Role> getRoles() { return roles;}
+    }
+

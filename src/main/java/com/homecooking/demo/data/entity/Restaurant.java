@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name= "Restaurant")
-public class Restaurant extends AbstractEntity {
+public class Restaurant{
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,10 @@ public class Restaurant extends AbstractEntity {
         this.name = name;
         this.address = address;
         this.city = city;
+    }
+
+    public Restaurant() { //No args constructor for JPA
+
     }
 
     public UUID getId() {

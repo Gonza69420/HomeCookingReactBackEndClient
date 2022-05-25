@@ -5,7 +5,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "profileschef")
-public class Profile extends AbstractEntity {
+public class Profile{
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @OneToOne
     private Chef chef;
@@ -16,6 +19,14 @@ public class Profile extends AbstractEntity {
     @OneToMany
     private List<Menu> menus;
     private String bio;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Profile(Chef chef, List<Restaurant> restaurant, List<Menu> menus, String bio) {
         this.chef = chef;

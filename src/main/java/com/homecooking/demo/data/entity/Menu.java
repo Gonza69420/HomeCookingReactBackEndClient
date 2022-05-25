@@ -1,10 +1,16 @@
 package com.homecooking.demo.data.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Menu extends AbstractEntity { //Food Menu items
+public class Menu{ //Food Menu items
+
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     private String name;
     private String description;
@@ -12,6 +18,14 @@ public class Menu extends AbstractEntity { //Food Menu items
     private String category;
     @ManyToOne
     private Profile profile;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Menu(String name, String description, int price,String category) {
         this.name = name;

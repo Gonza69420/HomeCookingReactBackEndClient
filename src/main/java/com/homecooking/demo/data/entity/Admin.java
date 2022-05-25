@@ -3,42 +3,38 @@ package com.homecooking.demo.data.entity;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
-import java.util.UUID;
 
 
 @Entity
 @Table(name = "admin")
-public class Admin extends AbstractEntity{
+public class Admin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<ERole> roles;
 
     public Admin() {
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public Admin(String username, String password) {
         this.username = username;
         this.password = password;
-        this.setRoles(Collections.singleton(Role.ROLE_ADMIN));
+        roles.add(ERole.ROLE_ADMIN);
     }
 
-    private void setRoles(Set<Role> singleton) {
-        this.roles = singleton;
-    }
 
     public String getUsername() {return username;}
 

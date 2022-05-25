@@ -1,6 +1,7 @@
 package com.homecooking.demo.data.Security;
 import com.homecooking.demo.data.Security.jwt.AuthEntryPointJwt;
 import com.homecooking.demo.data.Security.jwt.AuthTokenFilter;
+import com.homecooking.demo.data.Security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception { //Chequear para meter todos los roles
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 

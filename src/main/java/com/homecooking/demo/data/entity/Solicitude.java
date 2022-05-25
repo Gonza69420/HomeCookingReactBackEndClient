@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class Solicitude extends AbstractEntity {
+public class Solicitude{
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
