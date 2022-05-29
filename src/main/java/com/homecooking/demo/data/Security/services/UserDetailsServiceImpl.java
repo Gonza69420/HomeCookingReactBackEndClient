@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    UserRepository userRepository; //UserRepository will contain all users. All users share the same columns.
+    //Email, password, role and ID. Then the Id will be used to refer to the profile, menus, etc. There will be no
+    // separate tables for chef, client or admin
 
     @Override
     @Transactional
@@ -28,6 +30,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByMail(String mail) throws UsernameNotFoundException {
         User user = userRepository.findByMail(mail)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with mail: " + mail));
+
+        return UserDetailsImpl.build(user);
+    }
+    @Transactional
+    public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with id: " + id));
 
         return UserDetailsImpl.build(user);
     }

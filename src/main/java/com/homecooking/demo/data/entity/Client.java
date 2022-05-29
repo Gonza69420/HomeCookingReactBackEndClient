@@ -4,8 +4,8 @@ package com.homecooking.demo.data.entity;
 import javax.persistence.*;
 import java.util.*;
 
-@Table(name = "client")
-@Entity(name = "Client")
+/*@Table(name = "client")
+@Entity(name = "Client")*/
 public class Client extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,10 @@ public class Client extends User {
     private String dni;
     private boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "client_roles",
+    /*@OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "roles",
             joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "role_id"))*/
 
     private String password;
 
@@ -39,7 +38,6 @@ public class Client extends User {
     }
 
     public Client() {
-
     }
 
 
@@ -120,6 +118,6 @@ public class Client extends User {
         return this.password.equals(password);
     }
 
-    public Set<Role> getRoles() { return roles;}
+    public ERole getRoles() { return ERole.ROLE_CLIENT;}
     }
 

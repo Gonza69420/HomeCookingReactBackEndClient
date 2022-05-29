@@ -1,16 +1,14 @@
 package com.homecooking.demo.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Menu{ //Food Menu items
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_id")
     private Long id;
+
 
     private String name;
     private String description;
@@ -18,6 +16,18 @@ public class Menu{ //Food Menu items
     private String category;
     @ManyToOne
     private Profile profile;
+
+    @ManyToOne
+    @JoinColumn(name = "chefs_id")
+    private User chefs;
+
+    public User getChefs() {
+        return chefs;
+    }
+
+    public void setChefs(User chefs) {
+        this.chefs = chefs;
+    }
 
     public Long getId() {
         return id;

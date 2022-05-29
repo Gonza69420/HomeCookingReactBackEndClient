@@ -2,17 +2,17 @@ package com.homecooking.demo.payload.request;
 
 public class LoginRequest {
 
-    private String username;
+    private String mail;
 
 
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMail(String username) {
+        this.mail = username;
     }
 
     public String getPassword() {

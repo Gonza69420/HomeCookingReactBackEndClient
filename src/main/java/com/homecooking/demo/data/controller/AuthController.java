@@ -4,9 +4,7 @@ package com.homecooking.demo.data.controller;
 import com.homecooking.demo.data.Security.jwt.JwtUtils;
 import com.homecooking.demo.data.Security.services.UserDetailsImpl;
 import com.homecooking.demo.data.entity.ERole;
-import com.homecooking.demo.data.entity.Role;
 import com.homecooking.demo.data.repository.*;
-import com.homecooking.demo.data.repository.AdminRepository;
 import com.homecooking.demo.payload.request.LoginRequest;
 import com.homecooking.demo.payload.request.SignupRequest;
 import com.homecooking.demo.payload.response.JwtResponse;
@@ -60,7 +58,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getMail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -72,7 +70,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
     }
@@ -91,37 +88,38 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        // Create new user's account. Separate client from chef
+        /*Role role = new Role();
+        role.setName(ERole.ROLE_CLIENT);*/
+        User user = new User(signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                userRepository.findByMail(signUpRequest.getEmail()).getAuthorities());
 
         Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
+        Set<ERole> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+            ERole userRole = roleRepository.findByName(ERole.ROLE_CLIENT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    case "admin" -> {
+                        ERole adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+                        roles.add(ERole.ROLE_ADMIN);
+                    }
+                    case "client" -> {
+                        ERole clientRole = roleRepository.findByName(ERole.ROLE_CLIENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_CHEF)
+                        roles.add(ERole.ROLE_CLIENT);
+                    }
+                    case "chef" -> {
+                        ERole chefRole = roleRepository.findByName(ERole.ROLE_CHEF)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        roles.add(ERole.ROLE_CHEF);
+                    }
                 }
             });
         }

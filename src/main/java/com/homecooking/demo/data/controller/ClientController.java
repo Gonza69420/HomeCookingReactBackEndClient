@@ -1,7 +1,6 @@
 package com.homecooking.demo.data.controller;
 
 import com.homecooking.demo.data.entity.Client;
-import com.homecooking.demo.data.service.serviceinteface.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

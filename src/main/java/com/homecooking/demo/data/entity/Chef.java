@@ -8,8 +8,8 @@ import java.util.UUID;
 
 
 
-@Entity
-@Table(name = "chef")
+/*@Entity
+@Table(name = "chef")*/
 public class Chef extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

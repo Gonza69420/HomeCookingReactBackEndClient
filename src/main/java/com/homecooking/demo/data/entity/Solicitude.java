@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Solicitude{
     @Id
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private Long id;
 
     private String idclient;
     private String idchef;
@@ -17,7 +17,7 @@ public class Solicitude{
     private String idmenuItems;
     private boolean status;
 
-    public Solicitude(UUID id, String idclient, String idchef, String date, String idmenuItems, boolean status) {
+    public Solicitude(Long id, String idclient, String idchef, String date, String idmenuItems, boolean status) {
         this.id = id;
         this.idclient = idclient;
         this.idchef = idchef;
@@ -30,11 +30,11 @@ public class Solicitude{
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

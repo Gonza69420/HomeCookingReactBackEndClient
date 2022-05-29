@@ -1,18 +1,20 @@
 package com.homecooking.demo.data.entity;
 
 
+import org.hibernate.annotations.WhereJoinTable;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
 
 @Entity
-@Table(name= "Restaurant")
+@Table(name= "restaurant")
 public class Restaurant{
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @Column(name = "user_id")
+    @WhereJoinTable(clause = "ROLE = 'ROLE_CHEF' ")
+    private Long id;
     private String name;
     private String address;
     private String city;
@@ -29,11 +31,11 @@ public class Restaurant{
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

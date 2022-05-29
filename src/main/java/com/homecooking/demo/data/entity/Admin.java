@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.Set;
 
 
-@Entity
-@Table(name = "admin")
+/*@Entity
+@Table(name = "admin") // Dont make this a table. Neither client nor admin*/
 public class Admin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)

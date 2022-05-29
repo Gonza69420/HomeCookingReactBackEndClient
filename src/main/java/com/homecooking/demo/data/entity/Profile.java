@@ -1,17 +1,17 @@
 package com.homecooking.demo.data.entity;
 
+import org.hibernate.annotations.WhereJoinTable;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "profileschef")
+@Table(name = "profiles")
 public class Profile{
+    //private Chef chef;
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_id")
     private Long id;
-
-    @OneToOne
-    private Chef chef;
     private String imageURL;
     @ManyToMany
     @JoinColumn(name = "restaurant_id")
@@ -19,6 +19,12 @@ public class Profile{
     @OneToMany
     private List<Menu> menus;
     private String bio;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id" )
+    @WhereJoinTable(clause = "role = 'ROLE_CHEF' ")
+    private User chef;
 
     public Long getId() {
         return id;
@@ -42,7 +48,7 @@ public class Profile{
     }
 
     public Chef getChef() {
-        return chef;
+        return (Chef) chef;
     }
 
     public void setChef(Chef chef) {
